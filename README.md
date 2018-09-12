@@ -9,9 +9,11 @@ This [Roll20](http://roll20.net/) script is a roof "lifting" system that shows/h
 ---
 
 To prepare a roof for use with the script follow the directions below:
-1. Verify you're on the *Token/Object Layer*. Place a graphic of a roof covering your room/building and size it to your needs. Make sure it is above all tokens you may have "inside" your room/building. Name that token **Roof** (must be capitalized).
-2. Place a token somewhere near the roof/building. This can be a transparent graphic, a bush, whatever. Try to place it somewhere it will remain unobstructed by other tokens. Name that token **RoofAnchor** (all one word, and yes the R and A need to be capitalized).
-3. With both tokens from above selected, type `!RoofLink` to connect the tokens. The RoofAnchor token will be given a GM-only aura to distinguish it as your roof anchor (see [Customization](#customization) below), and the Roof and RoofAnchor tokens will be renamed. This is how they are linked, so ***don't rename them.***
+1. Verify you're on the *Token/Object Layer*.
+2. Place a graphic of a roof covering your room/building and size it to your needs. Make sure it is above all tokens you may have "inside" your room/building. Name that token **Roof** (must be capitalized).
+3. Place a token somewhere near the roof/building. This can be a transparent graphic, a bush, whatever. Try to place it somewhere it will remain unobstructed by other tokens. Name that token **RoofAnchor** (all one word, and yes the R and A need to be capitalized).
+4. With both tokens from above selected, type `!RoofLink` to connect the tokens. The RoofAnchor token will be given a GM-only aura to distinguish it as your roof anchor (see [Customization](#customization) below), and the Roof and RoofAnchor tokens will be renamed. This is how they are linked, so ***don't rename them.***
+
 Do this for each roof needed.
 
 ---
