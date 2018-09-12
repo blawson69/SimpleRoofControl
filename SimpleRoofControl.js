@@ -1,4 +1,12 @@
-﻿var SimpleRoofControl = SimpleRoofControl || (function() {
+﻿/*
+SimpleRoofControl
+A roof lifting system for Roll20
+
+Github:		https://github.com/blawson69/SimpleRoofControl
+Contact:	https://app.roll20.net/users/1781274/ben-l
+*/
+
+var SimpleRoofControl = SimpleRoofControl || (function() {
     'use strict';
 
     var version = '1.0',

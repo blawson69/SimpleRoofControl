@@ -1,6 +1,6 @@
 # SimpleRoofControl
 
-This [Roll20](http://roll20.net/) script is a roof "lifting" system that shows/hides rooms by moving a roof graphic between the token layer and the dynamic lighting layer. It also gives the option to turn the Advanced Fog of War and Dynamic Lighting on or off so you can have those features only inside a building.
+This [Roll20](http://roll20.net/) script is a roof "lifting" system that shows/hides rooms or houses. It also gives the option to turn the Advanced Fog of War and Dynamic Lighting on or off so you can have those features enabled only inside the building.
 
 ### Commands
 * **!RoofLink**
@@ -8,9 +8,9 @@ This [Roll20](http://roll20.net/) script is a roof "lifting" system that shows/h
 
 ---
 To prepare a roof for use with the script follow the directions below:
-1 Verify you're on the Token/Object Layer. Place a graphic of a roof covering your room/building and size it to your needs. Make sure it is above all tokens you may have "inside" your room/building. Name that token **Roof** (must be capitalized).
-2 Place a token in somewhere near the room/building. This can be a transparent graphic, a bush, whatever. You will want to place it somewhere it will remain unobstructed by player tokens or any roofs. Name that token **RoofAnchor** (all one word, and yes the R and A need to be capitalized).
-3 With both tokens from above selected, type `!RoofLink` to connect the tokens. The RoofAnchor token will be given a GM-only aura to distinguish it as your roof anchor, and the Roof and RoofAnchor tokens will be renamed. This is how they are linked, so ***don't rename them.***
+1. Verify you're on the Token/Object Layer. Place a graphic of a roof covering your room/building and size it to your needs. Make sure it is above all tokens you may have "inside" your room/building. Name that token **Roof** (must be capitalized).
+2. Place a token in somewhere near the room/building. This can be a transparent graphic, a bush, whatever. You will want to place it somewhere it will remain unobstructed by player tokens or any roofs. Name that token **RoofAnchor** (all one word, and yes the R and A need to be capitalized).
+3. With both tokens from above selected, type `!RoofLink` to connect the tokens. The RoofAnchor token will be given a GM-only aura to distinguish it as your roof anchor, and the Roof and RoofAnchor tokens will be renamed. This is how they are linked, so ***don't rename them.***
 Do this for each roof needed.
 
 ---
@@ -25,6 +25,6 @@ By default, this will toggle the Advanced Fog of War and Dynamic Lighting for th
 ```!ShowHideRoof OFF```
 ```!ShowHideRoof TOGGLE```
 
-Here is a simple macro you can use in your macro bar:
+I suggest you use a macro with a query for the Advanced Fog of War and Dynamic Lighting parameter:
 
 ```!ShowHideRoof ?{Set Fog of War|Toggle,toggle|Turn/Leave On,on|Turn/Leave Off,off}```
