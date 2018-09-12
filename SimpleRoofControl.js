@@ -9,9 +9,10 @@ Contact:	https://app.roll20.net/users/1781274/ben-l
 var SimpleRoofControl = SimpleRoofControl || (function() {
     'use strict';
 
-    var version = '1.0',
+    var version = '2.0',
     RoofParts = {},
     anchorColor = '#CC0000',
+    useAura2 = false,
 
     handleInput = function(msg) {
 		if (msg.type !== "api" || !playerIsGM(msg.playerid)) {
@@ -40,15 +41,13 @@ var SimpleRoofControl = SimpleRoofControl || (function() {
 				});
 
 				if(RoofParts.Roof && RoofParts.RoofAnchor) {
-					RoofParts.Roof.set({
+                    var roofParms = useAura2 ?
+                        {name: RoofParts.Roof.id, aura2_radius: '0.1', aura2_color: anchorColor, showplayers_aura2: false} :
+                        {name: RoofParts.Roof.id, aura1_radius: '0.1', aura1_color: anchorColor, showplayers_aura1: false};
+                    RoofParts.Roof.set({
 						name: RoofParts.RoofAnchor.id
 					});
-					RoofParts.RoofAnchor.set({
-						name: RoofParts.Roof.id,
-						aura1_radius: '0.1',
-						aura1_color: anchorColor,
-						showplayers_aura1: false
-					});
+					RoofParts.RoofAnchor.set(roofParms);
 					sendChat("Roofs", "/w GM Roof and anchor linked!");
 				} else {
 					sendChat("Roofs", "/w GM Couldn't fine required piece:<ul>"
@@ -107,11 +106,16 @@ var SimpleRoofControl = SimpleRoofControl || (function() {
 
     },
 
+	logReadiness = function (msg) {
+		log('--> SimpleRoofControl v' + version + ' <-- Initialized. Let\'s raise the roof!');
+	},
+
     registerEventHandlers = function() {
         on('chat:message', handleInput);
     };
 
     return {
+        logReadiness: logReadiness,
         RegisterEventHandlers: registerEventHandlers
     };
 
@@ -119,5 +123,6 @@ var SimpleRoofControl = SimpleRoofControl || (function() {
 
 on("ready",function(){
     'use strict';
+    SimpleRoofControl.logReadiness();
     SimpleRoofControl.RegisterEventHandlers();
 });
