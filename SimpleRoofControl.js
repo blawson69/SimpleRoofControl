@@ -2,8 +2,9 @@
 SimpleRoofControl
 A roof lifting system for Roll20
 
-Github:		https://github.com/blawson69/SimpleRoofControl
-Contact:	https://app.roll20.net/users/1781274/ben-l
+On Github:	https://github.com/blawson69/PurseStrings
+Contact me: https://app.roll20.net/users/1781274/ben-l
+Buy me a coffee: https://venmo.com/theBenLawson
 */
 
 var SimpleRoofControl = SimpleRoofControl || (function() {
@@ -21,14 +22,12 @@ var SimpleRoofControl = SimpleRoofControl || (function() {
 
 		switch(msg.content.split(/\s+/).shift()) {
 			case "!RoofLink":
-				//make sure two items are selected
 				if (msg.selected.length > 2) {
-					sendChat("Roofs", "/w gm You have selected too many things, looking among them for what I need.");
+					sendChat("Roofs", "/w gm You have selected too many things, but I'll look for what I need.");
 				} else if (msg.selected.length < 2) {
 					sendChat("Roofs", "/w gm You have not selected enough things. I give up.");
 					break;
 				}
-				//identify and get the ID for each each type of selected item
 				_.each(msg.selected, function(obj) {
 					var o = getObj(obj._type, obj._id);
 					if(o) {
@@ -71,14 +70,11 @@ var SimpleRoofControl = SimpleRoofControl || (function() {
 						var params=o.get('name'),
 							oRoof = getObj('graphic',params);
 						if(oRoof) {
-							// Toggle the roof layer
 							oRoof.set({
 								layer: ( 'objects' === oRoof.get('layer') ? 'walls' : 'objects')
 							});
-							// Make sure the roof is on top of all tokens on the Token layer
 							if (oRoof.get('layer') === 'objects') toFront(oRoof);
 
-							// Enable/Disable Adv Fog of War and Dynamic Lighting if requested
 							var msgparts = msg.content.split(/\s+/);
 							if(msgparts[1]) {
 								msgparts[1] = msgparts[1].toLowerCase();
