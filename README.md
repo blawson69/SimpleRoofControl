@@ -22,7 +22,7 @@ Once you have your roof(s) setup, you select the RoofAnchor token and use the fo
 
 ```!ShowHideRoof```
 
-By default, this will toggle the Advanced Fog of War and Dynamic Lighting for the current page on or off. If you want to specify whether to have Advanced Fog of War and Dynamic Lighting on or off, you can send a second parameter. There are three, all case insensitive, which are pretty self-explanatory. `ON` turns on (or leaves on) the Advanced Fog of War and Dynamic Lighting, `OFF` turns or leaves them off, and the default `TOGGLE` flips them on if they're off and vice versa.
+By default, this command will only toggle the roof visibility. If you want to control whether to have Advanced Fog of War and Dynamic Lighting on or off, you can send a second parameter. There are three, all case insensitive, which are pretty self-explanatory. `ON` turns on (or leaves on) the Advanced Fog of War and Dynamic Lighting, `OFF` turns or leaves them off, and `TOGGLE` flips them on if they're off and vice versa.
 
 ```
 !ShowHideRoof ON
