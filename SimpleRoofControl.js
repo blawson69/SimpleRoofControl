@@ -73,7 +73,6 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
 						if (oRoof) {
                             var dest = oRoof.get('bar1_value').toLowerCase();
                             if (dest !== 'map') dest = 'objects';
-                            sendChat('SimpleRoofControl','/w GM dest = ' + dest);
                             oRoof.set({
 								layer: ( (oRoof.get('layer') !== 'walls') ? 'walls' : dest)
 							});
