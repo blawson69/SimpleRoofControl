@@ -6,7 +6,7 @@ You can also designate a graphic to be placed on the map layer to broaden the fu
 
 ### Commands
 * **!RoofLink**
-* **!ShowHideRoof** <_dynamic_lighting_control_>
+* **!ShowHideRoof** <_dynamic_lighting_control_> <_anchor_token_id_>
 
 ---
 
@@ -21,18 +21,26 @@ Do this for each "roof" needed.
 
 ---
 
-Once you have your roof(s) setup, you select the "RoofAnchor" token and use the following command:
+Once you have your Roof(s) setup, you select the RoofAnchor token and use the following command:
 
 ```
 !ShowHideRoof
 ```
 
-By default, this command will only toggle the roof visibility. If you want to control whether to have Advanced Fog of War and Dynamic Lighting on or off, you can send a second parameter. There are three, all case insensitive, which are pretty self-explanatory. `ON` turns on (or leaves on) the Advanced Fog of War and Dynamic Lighting, `OFF` turns or leaves them off, and `TOGGLE` flips them on if they're off and vice versa.
+By default, this command will only toggle the Roof visibility. If you want to control whether to have Advanced Fog of War and Dynamic Lighting on or off, you can send a second parameter. There are three, all case insensitive, which are pretty self-explanatory. `ON` turns on (or leaves on) the Advanced Fog of War and Dynamic Lighting, `OFF` turns or leaves them off, and `TOGGLE` flips them on if they're off and vice versa.
 
 ```
 !ShowHideRoof ON
 !ShowHideRoof OFF
 !ShowHideRoof TOGGLE
+```
+
+In some instances you may be using macros with multiple API script calls and one of them uses target tokens, causing your RoofAnchor token to be de-selected. In these cases, you can send the ID of the RoofAnchor token as the last parameter to the command.
+
+```
+!ShowHideRoof -LVo7yDRijRbyShF5OeO
+!ShowHideRoof @{selected|token_id}
+!ShowHideRoof ON @{target|RoofAnchor|token_id}
 ```
 
 ---

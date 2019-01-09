@@ -10,7 +10,7 @@ Like this script? Buy me a coffee: https://venmo.com/theBenLawson
 var SimpleRoofControl = SimpleRoofControl || (function () {
     'use strict';
 
-    var version = '2.1.1',
+    var version = '2.2',
     debugMode = false,
     RoofParts = {},
     anchorColor = '#CC0000',
@@ -24,9 +24,9 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
 		switch (msg.content.split(/\s+/).shift()) {
 			case "!RoofLink":
 				if (msg.selected.length > 2) {
-					sendChat("SimpleRoofControl", "/w gm You have selected too many things, but I'll look for what I need.");
+					sendChat("SimpleRoofControl", "/w GM You have selected too many tokens, but I'll look for what I need.");
 				} else if (msg.selected.length < 2) {
-					sendChat("SimpleRoofControl", "/w gm You have not selected enough things. I give up.");
+					sendChat("SimpleRoofControl", "/w GM You have not selected enough tokens! I give up.");
 					break;
 				}
 				_.each(msg.selected, function (obj) {
@@ -61,47 +61,50 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
 				break;
 
 			case "!ShowHideRoof":
-				_.chain(msg.selected)
-					.map(function (o) {
-						return getObj('graphic', o._id);
-					})
-					.reject(_.isUndefined)
-					.filter(function (o) {
-						return 'objects' === o.get('layer');
-					})
-					.each(function (o) {
-						var params = o.get('name'),
-							oRoof = getObj('graphic', params);
-						if (oRoof) {
-                            var dest = oRoof.get('bar1_value').toLowerCase();
-                            if (dest !== 'map') dest = 'objects';
-                            oRoof.set({
-								layer: ( (oRoof.get('layer') !== 'walls') ? 'walls' : dest)
-							});
-							if (oRoof.get('layer') === 'objects') toFront(oRoof);
+                var anchor,
+                    msgparts = msg.content.split(/\s+/),
+                    regex = /on|off|toggle/i;
 
-							var msgparts = msg.content.split(/\s+/);
-							if (msgparts[1]) {
-								msgparts[1] = msgparts[1].toLowerCase();
-								if (msgparts[1] === 'on' || msgparts[1] === 'off' || msgparts[1] === 'toggle') {
-									var oPage = getObj("page", Campaign().get("playerpageid"));
-									if (msgparts[1] === 'toggle') {
-										oPage.set({
-											showlighting: (oPage.get('showlighting') === false ? true : false),
-											adv_fow_enabled: (oPage.get('adv_fow_enabled') === false ? true : false)
-										});
-									} else {
-										oPage.set({
-											showlighting: (msgparts[1] === 'on' ? true : false),
-											adv_fow_enabled: (msgparts[1] === 'on' ? true : false)
-										});
-									}
-								}
-							}
-						} else {
-							sendChat('SimpleRoofControl','/w GM Missing Roof token');
-						}
-					});
+                if (!msg.selected) {
+                    var anchorID = _.last(msgparts);
+                    if (anchorID) anchor = getObj('graphic', anchorID);
+                } else {
+                    var tokens = msg.selected.map(s => getObj(s._type, s._id));
+                    if (tokens[0]) anchor = tokens[0];
+                }
+
+                if (anchor) {
+                    var roofID = anchor.get('name'),
+                        oRoof = getObj('graphic', roofID);
+                    if (oRoof) {
+                        var dest = oRoof.get('bar1_value').toLowerCase();
+                        if (dest !== 'map') dest = 'objects';
+                        oRoof.set({
+                            layer: ( (oRoof.get('layer') !== 'walls') ? 'walls' : dest)
+                        });
+                        if (oRoof.get('layer') === 'objects') toFront(oRoof);
+
+                        if (msgparts[1]) {
+                            msgparts[1] = msgparts[1].toLowerCase();
+                            if (regex.test(msgparts[1])) {
+                                var oPage = getObj("page", Campaign().get("playerpageid"));
+                                if (msgparts[1] === 'toggle') {
+                                    oPage.set({
+                                        showlighting: (oPage.get('showlighting') === false ? true : false),
+                                        adv_fow_enabled: (oPage.get('adv_fow_enabled') === false ? true : false)
+                                    });
+                                } else {
+                                    oPage.set({
+                                        showlighting: (msgparts[1] === 'on' ? true : false),
+                                        adv_fow_enabled: (msgparts[1] === 'on' ? true : false)
+                                    });
+                                }
+                            }
+                        }
+                    } else {
+                        sendChat('SimpleRoofControl','/w GM Missing Roof token!');
+                    }
+                }
 				break;
 		}
 
