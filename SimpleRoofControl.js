@@ -10,7 +10,7 @@ Like this script? Buy me a coffee: https://venmo.com/theBenLawson
 var SimpleRoofControl = SimpleRoofControl || (function () {
     'use strict';
 
-    var version = '2.1',
+    var version = '2.1.1',
     debugMode = false,
     RoofParts = {},
     anchorColor = '#CC0000',
@@ -33,7 +33,7 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
 					var o = getObj(obj._type, obj._id);
 					if (o) {
 						if (o.get("_type") === "graphic" && o.get("name") === "Roof" && !RoofParts.Roof) {
-							RoofParts.Roof=o;
+							RoofParts.Roof = o;
 						} else if (o.get("type") === "graphic" && o.get("name") === "RoofAnchor" && !RoofParts.RoofAnchor) {
 							RoofParts.RoofAnchor = o;
 						}
@@ -48,6 +48,8 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
 						name: RoofParts.RoofAnchor.id
 					});
 					RoofParts.RoofAnchor.set(roofParms);
+
+                    RoofParts = {};
 					sendChat("SimpleRoofControl", "/w GM Roof and anchor linked!");
 				} else {
 					sendChat("SimpleRoofControl", "/w GM Couldn't fine required piece:<ul>"

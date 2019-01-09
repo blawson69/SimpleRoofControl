@@ -1,8 +1,8 @@
 # SimpleRoofControl
 
-This [Roll20](http://roll20.net/) script is a roof "lifting" system that shows/hides rooms or houses. It also gives the option to turn the Advanced Fog of War and Dynamic Lighting on or off so you can have those features enabled only inside the building.
+This [Roll20](http://roll20.net/) script is a roof "lifting" system to show/hide rooms or houses. It also gives the option to turn the Advanced Fog of War and Dynamic Lighting on or off so you can have those features enabled only inside the building.
 
-You can also designate a graphic to be placed on the map layer to broaden the functionality of the script. For instance, you can now hide a pit trap that gets revealed (moved to the map layer) allowing the player tokens to remain visible.
+You can also designate a graphic to be placed on the map layer to broaden the functionality of the script. For instance, you can now hide a pit trap that gets revealed (moved to the map layer) which allows the player tokens to remain visible. (By default, Roofs - tokens revealed on the token layer - are automatically sent to the top to hide all graphics below it.)
 
 ### Commands
 * **!RoofLink**
