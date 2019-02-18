@@ -43,6 +43,8 @@ In some instances you may be using macros with multiple API script calls and one
 !ShowHideRoof ON @{target|RoofAnchor|token_id}
 ```
 
+This will ignore any selected tokens in favor of the token ID passed in this way.
+
 ## Configuration
 
 You can enter the Config/Help Menu by using either of the following commands:
@@ -51,6 +53,6 @@ You can enter the Config/Help Menu by using either of the following commands:
 !Roof help
 !Roof config
 ```
-This dialog gives you easy access to changing the available options (below) and gives you the [Setup](#setup) instructions.
-
-There are two variables at the top of the script that you can modify to better integrate SimpleRoofControl into your campaign. **Anchor Color** is the hexidecimal value of the aura applied to the RoofAnchor token. If you are using red auras for another purpose, you may change this color to any valid hexidecimal color you wish. **Aura** is the aura field to be used on the RoofAnchor token. If you are using your tokens' Aura 1 for a different purpose or another script is using them, you may change the Aura setting to use Aura 1 instead. To do this, just click the "use aura" link provided.
+This dialog gives you gives you the [Setup](#setup) instructions and provides easy access to changing the available options. There are two variables at the top of the script that you can modify to better integrate SimpleRoofControl into your campaign:
+* **Anchor Color** is the hexidecimal value of the aura applied to the RoofAnchor token. If you are using red auras for another purpose, you may change this color to any valid hexidecimal color you wish using the link provided.
+* **Aura** is the aura field to be used on the RoofAnchor token. If you are using your tokens' Aura 1 for a different purpose or another script is using them, you may change the Aura setting to use Aura 1 instead. To do this, just click the link provided.
