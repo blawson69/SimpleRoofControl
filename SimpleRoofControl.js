@@ -41,7 +41,7 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
         log('--> SimpleRoofControl v' + version + ' <-- Initialized. Let\'s raise the roof!');
         if (debugMode) sendDialog('Initialized','SimpleRoofControl has loaded.');
         if (firstTime) sendDialog('Welcome', 'Thanks for using SimpleRoofControl!<br><br><div align="center"><a style="'
-            + styles.button + '" href="!Roof config">&#8594; Get Started &#8592;</a></div>');
+            + styles.button + '" href="!Roof help">&#8594; Get Started &#8592;</a></div>');
     },
 
     handleInput = function (msg) {
@@ -55,8 +55,10 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
                 if (parms[1]) {
                     switch (parms[1]) {
                         case "config":
+                            showConfig('config');
+                            break;
                         case "help":
-                            showConfig();
+                            showConfig('help');
                             break;
                         case "color":
                             setAuraColor(parms);
@@ -153,28 +155,35 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
 
     },
 
-    showConfig = function () {
-        var message = '<h4>Anchor Color</h4>Your current anchor color is <i>#' + state['SIMPLEROOFCONTROL'].anchorColor.substr(1)
-            + '</i>. To change this color, enter a hexidecimal value without the beginning hash (#).<br>'
-            + '<div style="' + styles.colorBox + ' background-color: ' + state['SIMPLEROOFCONTROL'].anchorColor + '">&nbsp;</div>'
-            + '<div align="center"><a style="' + styles.textButton
-            + '" href="!Roof color &#63;&#123;Color&#124;' + state['SIMPLEROOFCONTROL'].anchorColor.substr(1) + '&#125;">Change Color</a></div><br>'
-            + '<h4>Aura</h4>The Anchor Color (above) is set as a GM-only aura on the Roof Anchor token, and the script can use either aura in case one is already in use. ';
-        if (state['SIMPLEROOFCONTROL'].useAura2) {
-            message += 'Your are currently configured to use aura2.<br><div align="center"><a style="' + styles.textButton
-                + '" href="!Roof aura-toggle">Switch to aura1</a></div><br>';
-        } else {
-            message += 'Your are currently configured to use aura1.<br><div align="center"><a style="' + styles.textButton
-                + '" href="!Roof aura-toggle">Switch to aura2</a></div><br>';
-        }
-        message += '<h4>Setup</h4>To prepare a roof for use with the script follow the directions below:<ul>'
+    showConfig = function (mode) {
+        var message;
+        if (mode == 'help') {
+            message = 'To prepare a Roof for use with the script follow the directions below:<ul>'
             + '<li>Verify you\'re on the <i>Token/Object Layer</i>.</li>'
             + '<li>Place a graphic of a roof covering your room/building and size it to your needs. If your graphic is a floor trap or anything else you wish to send to the map layer, size and position it accordingly as well. Name this graphic <b>Roof</b> (capitalization counts!) regardless of the layer you wish to show it on.</li>'
             + '<li>If the "Roof" graphic is to be revealed on the map layer, enter "map" as the token\'s bar1 value.</li>'
             + '<li>Place a token somewhere near the roof/building. This can be a transparent graphic, a bush, whatever. Name that token <b>RoofAnchor</b> (all one word, and yes the R and A need to be capitalized).</li>'
             + '<li>With both tokens from above selected, type <span style=\'' + styles.code + '\'>!RoofLink</span> to connect the tokens. The RoofAnchor token will be given a GM-only aura to distinguish it as your roof anchor. The Roof and RoofAnchor tokens will also be renamed. This is how they are linked, so <b><i>don\'t rename them.</b></i></li>'
             + '</ul>Do this for each "roof" needed.';
-        sendDialog('Config/Help Menu', message);
+            message += '<br><br><div align="center"><a style="' + styles.button + '" href="!Roof config">Show Config Menu</a></div><br>';
+            sendDialog('Help Menu', message);
+        } else {
+            message = '<h4>Anchor Color</h4>Your current anchor color is <i>#' + state['SIMPLEROOFCONTROL'].anchorColor.substr(1)
+            + '</i>. To change this color, enter a hexidecimal value without the beginning hash (#).<br>'
+            + '<div style="' + styles.colorBox + ' background-color: ' + state['SIMPLEROOFCONTROL'].anchorColor + '">&nbsp;</div>'
+            + '<div align="center"><a style="' + styles.textButton
+            + '" href="!Roof color &#63;&#123;Color&#124;' + state['SIMPLEROOFCONTROL'].anchorColor.substr(1) + '&#125;">Change Color</a></div><br>'
+            + '<h4>Aura</h4>The Anchor Color (above) is set as a GM-only aura on the Roof Anchor token, and the script can use either aura in case one is already in use. ';
+            if (state['SIMPLEROOFCONTROL'].useAura2) {
+                message += 'Your are currently configured to use aura2.<br><div align="center"><a style="' + styles.textButton
+                + '" href="!Roof aura-toggle">Switch to aura1</a></div>';
+            } else {
+                message += 'Your are currently configured to use aura1.<br><div align="center"><a style="' + styles.textButton
+                + '" href="!Roof aura-toggle">Switch to aura2</a></div>';
+            }
+            message += '<br><div align="center"><a style="' + styles.button + '" href="!Roof help">Show Help Menu</a></div><br>';
+            sendDialog('Config Menu', message);
+        }
     },
 
     setAuraColor = function (parms) {
