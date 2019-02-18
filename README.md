@@ -52,4 +52,4 @@ You can enter the Config Menu by sending `!Roof config` in the chat. This dialog
 * **Aura** is the aura field to be used on the RoofAnchor token. If you are using your tokens' Aura 1 for a different purpose or another script is using them, you may change the Aura setting to use Aura 1 instead. To do this, just click the link provided.
 
 ## In-Chat Help
-You may have the [Setup](#setup) instructions given to you by using `!Roof help` in chat.
+You may have the [Setup](#setup) instructions given to you at any time by sending `!Roof help` in chat.
