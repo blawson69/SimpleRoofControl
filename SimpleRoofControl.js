@@ -169,7 +169,7 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
             sendDialog('Help Menu', message);
         } else {
             message = '<h4>Anchor Color</h4>Your current anchor color is <i>#' + state['SIMPLEROOFCONTROL'].anchorColor.substr(1)
-            + '</i>. To change this color, enter a hexidecimal value without the beginning hash (#).<br>'
+            + '</i>. To change this color, enter a hexadecimal value without the beginning hash (#).<br>'
             + '<div style="' + styles.colorBox + ' background-color: ' + state['SIMPLEROOFCONTROL'].anchorColor + '">&nbsp;</div>'
             + '<div align="center"><a style="' + styles.textButton
             + '" href="!Roof color &#63;&#123;Color&#124;' + state['SIMPLEROOFCONTROL'].anchorColor.substr(1) + '&#125;">Change Color</a></div><br>'
@@ -191,7 +191,7 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
             state['SIMPLEROOFCONTROL'].anchorColor = '#' + parms[2];
             showConfig();
         } else {
-            var err = 'You must enter a valid 3- or 6-digit hexidecimal color code. Try again.<br><div align="center"><a href="!Roof color &#63;&#123;Color&#124;'
+            var err = 'You must enter a valid 3- or 6-digit hexadecimal color code. Try again.<br><div align="center"><a href="!Roof color &#63;&#123;Color&#124;'
             + state['SIMPLEROOFCONTROL'].anchorColor.substr(1) + '&#125;">Change Color</a></div>';
             sendDialog('Error', err);
         }
