@@ -4,11 +4,11 @@ This [Roll20](http://roll20.net/) script is a roof "lifting" system to show/hide
 
 You can also designate a graphic to be placed on the map layer to broaden the functionality of the script. For instance, you can now hide a pit trap that gets revealed (moved to the map layer) which allows the player tokens to remain visible. (By default, Roofs - tokens revealed on the token layer - are automatically sent to the top to hide all graphics below it.)
 
-### Commands
+## Commands
 * **!RoofLink**
 * **!ShowHideRoof** <_dynamic_lighting_control_> <_anchor_token_id_>
 
----
+## Setup
 
 To prepare a roof for use with the script follow the directions below:
 1. Verify you're on the *Token/Object Layer*.
@@ -19,7 +19,7 @@ To prepare a roof for use with the script follow the directions below:
 
 Do this for each "roof" needed.
 
----
+## How to Use
 
 Once you have your Roof(s) setup, you select the RoofAnchor token and use the following command:
 
@@ -43,9 +43,7 @@ In some instances you may be using macros with multiple API script calls and one
 !ShowHideRoof ON @{target|RoofAnchor|token_id}
 ```
 
----
-
-### Customization
+## Customization
 
 There are two variables at the top of the script that you can modify to better integrate SimpleRoofControl into your campaign.
 * `anchorColor` This variable holds the hexidecimal value of the aura applied to the RoofAnchor token. If you are using red auras for another purpose, you may change this color to any valid hexidecimal color you wish.
