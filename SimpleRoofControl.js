@@ -2,7 +2,7 @@
 SimpleRoofControl
 A roof lifting system for Roll20
 
-On Github:	https://github.com/blawson69/PurseStrings
+On Github:	https://github.com/blawson69
 Contact me: https://app.roll20.net/users/1781274/ben-l
 Like this script? Buy me a coffee: https://venmo.com/theBenLawson
 */
