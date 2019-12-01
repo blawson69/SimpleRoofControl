@@ -12,7 +12,7 @@ Like this script? Become a patron:
 var SimpleRoofControl = SimpleRoofControl || (function () {
     'use strict';
 
-    var version = '4.0',
+    var version = '4.1',
     debugMode = false,
     RoofParts = {},
     styles = {
@@ -47,6 +47,7 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
         if (typeof state['SIMPLEROOFCONTROL'].useAura2 == 'undefined') state['SIMPLEROOFCONTROL'].useAura2 = false;
         if (typeof state['SIMPLEROOFCONTROL'].useFoW == 'undefined') state['SIMPLEROOFCONTROL'].useFoW = true;
         if (typeof state['SIMPLEROOFCONTROL'].allowLabels == 'undefined') state['SIMPLEROOFCONTROL'].allowLabels = false;
+        if (typeof state['SIMPLEROOFCONTROL'].gmOnly == 'undefined') state['SIMPLEROOFCONTROL'].gmOnly = true;
         if (typeof state['SIMPLEROOFCONTROL'].lockPos == 'undefined') state['SIMPLEROOFCONTROL'].lockPos = true;
         if (typeof state['SIMPLEROOFCONTROL'].lockedTokens == 'undefined') state['SIMPLEROOFCONTROL'].lockedTokens = [];
         _.each(state['SIMPLEROOFCONTROL'].lockedTokens, function (id) {
@@ -67,7 +68,7 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
     },
 
     handleInput = function (msg) {
-		if (msg.type !== "api" || !playerIsGM(msg.playerid)) {
+		if (msg.type !== "api") {
 			return;
 		}
 
@@ -90,6 +91,9 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
                 break;
 
             case "!RoofLink":
+                if (!playerIsGM(msg.playerid)) {
+        			return;
+        		}
 				if (msg.selected.length < 2) {
                     sendDialog('Link Error', 'You have not selected enough tokens! Please select a "Roof" and a "RoofAnchor" token.');
 					break;
@@ -115,9 +119,6 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
                     else roofAnchorParms.name = RoofParts.Roof.id;
                     RoofParts.RoofAnchor.set(roofAnchorParms);
 
-                    var roofParms = state['SIMPLEROOFCONTROL'].allowLabels ? { bar1_value: RoofParts.RoofAnchor.id } : { name: RoofParts.RoofAnchor.id };
-                    RoofParts.Roof.set(roofParms);
-
                     if (state['SIMPLEROOFCONTROL'].lockPos) {
                         state['SIMPLEROOFCONTROL'].lockedTokens.push(RoofParts.Roof.id);
                         state['SIMPLEROOFCONTROL'].lockedTokens = _.uniq(state['SIMPLEROOFCONTROL'].lockedTokens);
@@ -135,16 +136,21 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
 				break;
 
 			case "!ShowHideRoof":
+                if (!playerIsGM(msg.playerid) && state['SIMPLEROOFCONTROL'].gmOnly) {
+                    sendChat('SimpleRoofControl','/w "' + msg.who + '" You do not have permission to use that command.', null, {noarchive:true});
+                    return;
+                }
                 var anchor,
                     msgparts = msg.content.split(/\s+/),
                     regex = /on|off|toggle/i;
-
-                if (!msg.selected) {
-                    var anchorID = _.last(msgparts);
-                    if (anchorID) anchor = getObj('graphic', anchorID);
-                } else {
+                    log('msg.content = ' + msg.content);
+                if (msg.selected) {
                     var tokens = msg.selected.map(s => getObj(s._type, s._id));
                     if (tokens[0]) anchor = tokens[0];
+                }
+                if (_.last(msgparts).startsWith('-')) {
+                    var anchorID = _.last(msgparts);
+                    if (anchorID) anchor = getObj('graphic', anchorID);
                 }
 
                 if (anchor) {
@@ -172,7 +178,7 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
                             }
                         }
                     } else {
-                        sendDialog('Error', 'Missing Roof token!');
+                        sendDialog('Error', 'Missing Roof token' + (state['SIMPLEROOFCONTROL'].allowLabels ? ' for "' + anchor.get('name') + '"' : '') + '!');
                     }
                 }
 				break;
@@ -188,6 +194,7 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
             if (parts[0] == 'labels-toggle') state['SIMPLEROOFCONTROL'].allowLabels = !state['SIMPLEROOFCONTROL'].allowLabels;
             if (parts[0] == 'pos-toggle') state['SIMPLEROOFCONTROL'].lockPos = !state['SIMPLEROOFCONTROL'].lockPos;
             if (parts[0] == 'fow-toggle') state['SIMPLEROOFCONTROL'].useFoW = !state['SIMPLEROOFCONTROL'].useFoW;
+            if (parts[0] == 'gm-toggle') state['SIMPLEROOFCONTROL'].gmOnly = !state['SIMPLEROOFCONTROL'].gmOnly;
             if (parts[0] == 'color' && parts[1] != '') {
                 if (parts[1].match(/^([0-9a-fA-F]{3}){1,2}$/i) !== null) state['SIMPLEROOFCONTROL'].anchorColor = '#' + parts[1];
                 else color_err = true;
@@ -211,7 +218,10 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
         message += 'You can lock your roof tokens to prevent repositioning or resizing. If you change this, it <b>does not</b> affect previously locked tokens.<br><br>';
 
         message += '<h4>Use Fog of War: ' + (state['SIMPLEROOFCONTROL'].useFoW ? 'On' : 'Off') + ' <a style="' + styles.imgLink + '" href="!Roof config --fow-toggle" title="Toggle Fog of War use">🔄</a></h4>';
-        message += 'If you don\'t use Advanced Fog of War or don\'t wish the script to change it, turn this setting off.';
+        message += 'If you don\'t use Advanced Fog of War or don\'t wish the script to change it, turn this setting off.<br><br>';
+
+        message += '<h4>GM Only: ' + (state['SIMPLEROOFCONTROL'].gmOnly ? 'On' : 'Off') + ' <a style="' + styles.imgLink + '" href="!Roof config --gm-toggle" title="Toggle GM only">🔄</a></h4>';
+        message += 'If you wish to allow players to use the <span style=\'' + styles.code + '\'>!ShowHideRoof</span> command, turn this setting off.';
 
         message += '<hr>See the <a style="' + styles.textButton + '" href="https://github.com/blawson69/SimpleRoofControl">documentation</a> for complete instructions.<br>';
         message += '<div style=\'' + styles.buttonWrapper + '\'><a style="' + styles.button + '" href="!Roof help">Help Menu</a></div>';

@@ -1,5 +1,5 @@
 # SimpleRoofControl
-> **New in version 4.0** You can now switch to an alternate way of setting up your tokens to allow you to use the name field as a label. This way you can remind yourself what token is affected by which anchor, or use the name field for other purposes. You also now have the option to lock the size & position of your roof tokens and to turn on/off using Advanced Fog of War.
+> **New in version 4.1** You can now allow players to use the !ShowHideRoof command via a toggle in the config.
 
 This [Roll20](http://roll20.net/) script is a roof "lifting" system to show/hide rooms or houses. It also gives the option to turn the Advanced Fog of War and Dynamic Lighting on or off so you can have those features enabled only inside the building. You can also designate a graphic to be placed on the map layer to broaden the functionality of the script. For instance, you can now hide a pit trap that gets revealed (moved to the map layer) which allows the player tokens to remain visible. (By default, Roofs - tokens revealed on the token layer - are automatically sent to the top to hide all graphics below it.) You can optionally lock the position of the roof to prevent accidental moving or resizing.
 
@@ -52,6 +52,7 @@ You can enter the Config Menu by sending `!Roof config` in the chat. This dialog
 * **Lables** is the switch that lets you use the token's name field to label your roofs and anchors for identification. Labels are helpful with a map full of roofs and anchors, but this is disabled by default to allow backward compatibility with previous versions of SimpleRoofControl. To convert to using labels, simply follow the instructions above as if the two are not linked.
 * **Position Locking** allows you to lock the position, size and rotation of a Roof token whenever you link it with its RoofAnchor. This can be helpful on a crowded map or if there is a tendency to drag the wrong tokens. Roofs linked with locking on will remain locked after position locking is disabled, so if you wish to unlock a roof, send `!Roof unlock` with the roof token selected.
 * **Use Fog of War** allows you to turn off access to Advanced Fog of War and only affect Dynamic Lighting with the `ON|OFF|TOGGLE` parameter.
+* **GM Only** allows you to give players access to the `!ShowHideRoof` command. This allows more flexibility and creativity with the script, like creating player macros to let them change their environment.
 
 ## In-Chat Help
 You may have [Setup](#setup) instructions based on your configuration settings given to you at any time by sending `!Roof help` in chat.
