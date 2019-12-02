@@ -19,6 +19,7 @@ To prepare a roof for use with the script follow the directions below:
 7. If lables are not enabled, the Roof and RoofAnchor tokens will be renamed so the names ***should not be changed.***
 
 Do this for each "roof" needed. To clarify the placement of required info:
+
 |  | Labels On | Labels Off |
 |:-------------:|:-------------:|:-------------:|
 | "Roof" | 1st Bar 1 field | Name field |
