@@ -12,7 +12,7 @@ Like this script? Become a patron:
 var SimpleRoofControl = SimpleRoofControl || (function () {
     'use strict';
 
-    var version = '4.1',
+    var version = '5.0',
     debugMode = false,
     RoofParts = {},
     styles = {
@@ -140,19 +140,52 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
                     sendChat('SimpleRoofControl','/w "' + msg.who + '" You do not have permission to use that command.', null, {noarchive:true});
                     return;
                 }
-                var anchor,
+
+                var anchorTokens = [],
                     msgparts = msg.content.split(/\s+/),
                     regex = /on|off|toggle/i;
-                    log('msg.content = ' + msg.content);
-                if (msg.selected) {
-                    var tokens = msg.selected.map(s => getObj(s._type, s._id));
-                    if (tokens[0]) anchor = tokens[0];
-                }
+
+                if (msg.selected) anchorTokens = msg.selected.map(s => getObj(s._type, s._id));
                 if (_.last(msgparts).startsWith('-')) {
-                    var anchorID = _.last(msgparts);
-                    if (anchorID) anchor = getObj('graphic', anchorID);
+                    anchorTokens = []; //ignore selected tokens
+                    var anchorIDs = msg.content.replace(/!ShowHideRoof\s*(?:on|off|toggle)?\s+/i, '').split(/\s*,\s*/);
+                    _.each(anchorIDs, function (id) {
+                        var token = getObj('graphic', id);
+                        if (token) anchorTokens.push(token);
+                    });
                 }
 
+                if (_.size(anchorTokens) > 0) {
+                    _.each(anchorTokens, function (anchor) {
+                        if (typeof anchor !== 'undefined' && typeof anchor.get !== 'undefined') {
+                            var roofID = (state['SIMPLEROOFCONTROL'].allowLabels) ? anchor.get('bar1_value') : anchor.get('name'),
+                                oRoof = getObj('graphic', roofID);
+                            if (oRoof) {
+                                var dest = (state['SIMPLEROOFCONTROL'].allowLabels) ? oRoof.get('bar1_max').toLowerCase() : oRoof.get('bar1_value').toLowerCase();
+                                if (dest !== 'map') dest = 'objects';
+                                oRoof.set({layer: ((oRoof.get('layer') !== 'walls') ? 'walls' : dest)});
+                                if (oRoof.get('layer') === 'objects') toFront(oRoof);
+
+                                if (regex.test(msgparts[1])) {
+                                    msgparts[1] = msgparts[1].toLowerCase();
+                                    var oPage = getObj("page", anchor.get('pageid'));
+                                    if (msgparts[1] === 'toggle') {
+                                        oPage.set({showlighting: (oPage.get('showlighting') === false ? true : false) });
+                                        if (state['SIMPLEROOFCONTROL'].useFoW) oPage.set({showdarkness: (oPage.get('adv_fow_enabled') === false ? true : false) });
+                                    } else {
+                                        oPage.set({showlighting: (msgparts[1] === 'on' ? true : false) });
+                                        if (state['SIMPLEROOFCONTROL'].useFoW) oPage.set({showdarkness: (msgparts[1] === 'on' ? true : false) });
+                                    }
+                                }
+                            } else {
+                                sendDialog('Error', 'Missing Roof token for ' + (state['SIMPLEROOFCONTROL'].allowLabels ? '"' + anchor.get('name') + '"' : 'ID ' + anchor.get('id')) + '!');
+                            }
+                        } else sendDialog('Error', 'Invalid token!');
+                    });
+                } else {
+                    sendDialog('Error', 'No tokens selected!');
+                }
+                /*
                 if (anchor) {
                     var roofID = (state['SIMPLEROOFCONTROL'].allowLabels) ? anchor.get('bar1_value') : anchor.get('name'),
                         oRoof = getObj('graphic', roofID);
@@ -181,6 +214,7 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
                         sendDialog('Error', 'Missing Roof token' + (state['SIMPLEROOFCONTROL'].allowLabels ? ' for "' + anchor.get('name') + '"' : '') + '!');
                     }
                 }
+                */
 				break;
 		}
 
