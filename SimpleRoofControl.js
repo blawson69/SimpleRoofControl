@@ -12,7 +12,7 @@ Like this script? Become a patron:
 var SimpleRoofControl = SimpleRoofControl || (function () {
     'use strict';
 
-    var version = '5.0',
+    var version = '5.1',
     debugMode = false,
     RoofParts = {},
     styles = {
@@ -20,7 +20,6 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
         title: 'padding: 0 0 10px 0; color: #591209; font-size: 1.5em; font-weight: bold; font-variant: small-caps; font-family: "Times New Roman",Times,serif;',
         subtitle: 'margin-top: -4px; padding-bottom: 4px; color: #666; font-size: 1.125em; font-variant: small-caps;',
         button: 'background-color: #000; border-width: 0px; border-radius: 5px; padding: 5px 8px; color: #fff; text-align: center;',
-        buttonAlt: 'background-color: #7a2016; border-width: 0px; border-radius: 5px; padding: 5px 8px; color: #fff; text-align: center;',
         buttonWrapper: 'text-align: center; margin: 10px 0; clear: both;',
         textButton: 'background-color: transparent; border: none; padding: 0; color: #591209; text-decoration: underline;',
         infoLink: 'background-color: transparent; border: none; padding: 0; color: #591209; text-decoration: none; font-family: Webdings;',
@@ -185,36 +184,6 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
                 } else {
                     sendDialog('Error', 'No tokens selected!');
                 }
-                /*
-                if (anchor) {
-                    var roofID = (state['SIMPLEROOFCONTROL'].allowLabels) ? anchor.get('bar1_value') : anchor.get('name'),
-                        oRoof = getObj('graphic', roofID);
-                    if (oRoof) {
-                        var dest = (state['SIMPLEROOFCONTROL'].allowLabels) ? oRoof.get('bar1_max').toLowerCase() : oRoof.get('bar1_value').toLowerCase();
-                        if (dest !== 'map') dest = 'objects';
-                        oRoof.set({
-                            layer: ( (oRoof.get('layer') !== 'walls') ? 'walls' : dest)
-                        });
-                        if (oRoof.get('layer') === 'objects') toFront(oRoof);
-
-                        if (msgparts[1]) {
-                            msgparts[1] = msgparts[1].toLowerCase();
-                            if (regex.test(msgparts[1])) {
-                                var oPage = getObj("page", anchor.get('pageid'));
-                                if (msgparts[1] === 'toggle') {
-                                    oPage.set({showlighting: (oPage.get('showlighting') === false ? true : false) });
-                                    if (state['SIMPLEROOFCONTROL'].useFoW) oPage.set({showdarkness: (oPage.get('adv_fow_enabled') === false ? true : false) });
-                                } else {
-                                    oPage.set({showlighting: (msgparts[1] === 'on' ? true : false) });
-                                    if (state['SIMPLEROOFCONTROL'].useFoW) oPage.set({showdarkness: (msgparts[1] === 'on' ? true : false) });
-                                }
-                            }
-                        }
-                    } else {
-                        sendDialog('Error', 'Missing Roof token' + (state['SIMPLEROOFCONTROL'].allowLabels ? ' for "' + anchor.get('name') + '"' : '') + '!');
-                    }
-                }
-                */
 				break;
 		}
 
@@ -237,24 +206,24 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
 
         message += '<h4>Anchor Color</h4>The button below is your Roof Anchor color: <i>#' + state['SIMPLEROOFCONTROL'].anchorColor.substr(1)
         + '</i>. To change, use the button to enter a hexadecimal color value without the hash (#).<br>';
-        message += '<div style=\'' + styles.buttonWrapper + '\'><a style="' + styles.buttonAlt + '; background-color: ' + state['SIMPLEROOFCONTROL'].anchorColor + '" href="!Roof config --color|&#63;&#123;New Color&#124;' + state['SIMPLEROOFCONTROL'].anchorColor.substr(1) + '&#125;" title="Change the aura color">Change 🎨</a></div>';
+        message += '<div style=\'' + styles.buttonWrapper + '\'><a style="' + styles.button + '; background-color: ' + state['SIMPLEROOFCONTROL'].anchorColor + '; color: ' + getContrastColor(state['SIMPLEROOFCONTROL'].anchorColor) + '" href="!Roof config --color|&#63;&#123;New Color&#124;' + state['SIMPLEROOFCONTROL'].anchorColor.substr(1) + '&#125;" title="Change the aura color">Change 🎨</a></div>';
         if (color_err) {
             message += '<div align="center" style="align: center; color: #C00; font-weight: bold; margin: 0 4px;">You must enter a valid 3- or 6-digit hexadecimal color code. Try again.</div>';
         }
 
-        message += '<br><h4>Use Aura: ' + (state['SIMPLEROOFCONTROL'].useAura2 ? '2' : '1') + ' <a style="' + styles.imgLink + '" href="!Roof config --aura-toggle" title="Toggle the aura use setting">🔄</a></h4>';
-        message += 'The Anchor Color (above) is indicator the Roof Anchor token, and the script can use either aura in case one is already in use.<br><br>';
+        message += '<br><h4>Aura: Aura ' + (state['SIMPLEROOFCONTROL'].useAura2 ? '2' : '1') + ' <a style="' + styles.textButton + '" href="!Roof config --aura-toggle" title="Toggle the aura use setting">change</a></h4>';
+        message += 'The Anchor Color (above) indicates a Roof Anchor token, and the script can use either aura in case one is already in use.<br><br>';
 
-        message += '<h4>labels: ' + (state['SIMPLEROOFCONTROL'].allowLabels ? 'On' : 'Off') + ' <a style="' + styles.imgLink + '" href="!Roof config --labels-toggle" title="Toggle the labels setting">🔄</a></h4>';
+        message += '<h4>labels: ' + (state['SIMPLEROOFCONTROL'].allowLabels ? 'On' : 'Off') + ' <a style="' + styles.textButton + '" href="!Roof config --labels-toggle" title="Toggle the labels setting">change</a></h4>';
         message += 'Allow backward compatability with previous versions by turning labels off. To use token names as labels for your roofs and anchors, turn labels on.<br><br>';
 
-        message += '<h4>Position Locking: ' + (state['SIMPLEROOFCONTROL'].lockPos ? 'On' : 'Off') + ' <a style="' + styles.imgLink + '" href="!Roof config --pos-toggle" title="Toggle position locking">🔄</a></h4>';
+        message += '<h4>Position Locking: ' + (state['SIMPLEROOFCONTROL'].lockPos ? 'On' : 'Off') + ' <a style="' + styles.textButton + '" href="!Roof config --pos-toggle" title="Toggle position locking">change</a></h4>';
         message += 'You can lock your roof tokens to prevent repositioning or resizing. If you change this, it <b>does not</b> affect previously locked tokens.<br><br>';
 
-        message += '<h4>Use Fog of War: ' + (state['SIMPLEROOFCONTROL'].useFoW ? 'On' : 'Off') + ' <a style="' + styles.imgLink + '" href="!Roof config --fow-toggle" title="Toggle Fog of War use">🔄</a></h4>';
-        message += 'If you don\'t use Advanced Fog of War or don\'t wish the script to change it, turn this setting off.<br><br>';
+        message += '<h4>Use Fog of War: ' + (state['SIMPLEROOFCONTROL'].useFoW ? 'On' : 'Off') + ' <a style="' + styles.textButton + '" href="!Roof config --fow-toggle" title="Toggle Fog of War use">change</a></h4>';
+        message += 'If you don\'t use Advanced Fog of War or don\'t wish the script to change it along with the Dynamic Lighting, turn this setting off.<br><br>';
 
-        message += '<h4>GM Only: ' + (state['SIMPLEROOFCONTROL'].gmOnly ? 'On' : 'Off') + ' <a style="' + styles.imgLink + '" href="!Roof config --gm-toggle" title="Toggle GM only">🔄</a></h4>';
+        message += '<h4>GM Only: ' + (state['SIMPLEROOFCONTROL'].gmOnly ? 'On' : 'Off') + ' <a style="' + styles.textButton + '" href="!Roof config --gm-toggle" title="Toggle GM only">change</a></h4>';
         message += 'If you wish to allow players to use the <span style=\'' + styles.code + '\'>!ShowHideRoof</span> command, turn this setting off.';
 
         message += '<hr>See the <a style="' + styles.textButton + '" href="https://github.com/blawson69/SimpleRoofControl">documentation</a> for complete instructions.<br>';
@@ -298,6 +267,20 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
         } else {
             sendDialog('Unlock Error', 'No tokens were selected.');
         }
+    },
+
+    getContrastColor = function (color) {
+        if (color.slice(0, 1) === '#') color = color.slice(1);
+        if (color.length === 3) {
+            color = color.split('').map(function (hex) {
+                return hex + hex;
+            }).join('');
+        }
+        var r = parseInt(color.substr(0, 2), 16);
+        var g = parseInt(color.substr(2, 2), 16);
+        var b = parseInt(color.substr(4, 2), 16);
+        var ratio = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+        return (ratio >= 128) ? 'black' : 'white';
     },
 
     handleMove = function(obj, prev) {
