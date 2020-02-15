@@ -12,7 +12,7 @@ Like this script? Become a patron:
 var SimpleRoofControl = SimpleRoofControl || (function () {
     'use strict';
 
-    var version = '5.1',
+    var version = '5.1.1',
     debugMode = false,
     RoofParts = {},
     styles = {
@@ -241,8 +241,8 @@ var SimpleRoofControl = SimpleRoofControl || (function () {
         message += '<li>Place a token near the Roof token. ' + (state['SIMPLEROOFCONTROL'].allowLabels ? 'Enter <b>RoofAnchor</b> into the token\'s first <span style="color: #579662;">Bar 1</span> field.' : 'Name that token <b>RoofAnchor</b>).') + '</li>';
         message += '<li>With both tokens selected, type <span style=\'' + styles.code + '\'>!RoofLink</span> in chat to link the tokens. The RoofAnchor token will get a GM-only aura to distinguish it as a Roof Anchor.';
         message += '<li>' + (state['SIMPLEROOFCONTROL'].allowLabels ? 'Name your Roof and RoofAnchor tokens however you wish.' : 'The Roof and RoofAnchor tokens will be renamed. This is how they are linked, so <b><i>do not rename them.</b></i>.') + '</li>';
-        message += '</ol>Do this for each "roof" needed.<br><br>Send <span style=\'' + styles.code + '\'>!RoofLink</span> in chat with the RoofAnchor selected to show/hide the Roof token.<br><br>';
-        message += 'Use <span style=\'' + styles.code + '\'>!RoofLink [ON|OFF|TOGGLE]</span> to affect Dynamic Lighting' + (state['SIMPLEROOFCONTROL'].useFoW ? ' and Advanced Fog of War' : '') + '.';
+        message += '</ol>Do this for each "roof" needed.<br><br>Send <span style=\'' + styles.code + '\'>!ShowHideRoof</span> in chat with the RoofAnchor selected to show/hide the Roof token.<br><br>';
+        message += 'Use <span style=\'' + styles.code + '\'>!ShowHideRoof [ON|OFF|TOGGLE]</span> to affect Dynamic Lighting' + (state['SIMPLEROOFCONTROL'].useFoW ? ' and Advanced Fog of War' : '') + '.';
         message += '<hr>See the <a style="' + styles.textButton + '" href="https://github.com/blawson69/SimpleRoofControl">documentation</a> for complete instructions.<br>';
         message += '<div style=\'' + styles.buttonWrapper + '\'><a style="' + styles.button + '" href="!Roof config">Config Menu</a></div>';
         sendDialog('Help Menu', message);
